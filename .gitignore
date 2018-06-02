@@ -1,0 +1,4 @@
+./sbatch_outfile
+./hpl_scripts/hpl_dats
+./sys_scripts/smart_tmp
+./failed_job

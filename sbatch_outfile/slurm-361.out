@@ -1,0 +1,6 @@
+IOR-3.1.0: MPI Coordinated Test of Parallel I/O
+
+ior ERROR: block size must be a multiple of transfer size, errno 11, Resource temporarily unavailable (ior.c:2356)
+application called MPI_Abort(MPI_COMM_WORLD, -1) - process 0
+In: PMI_Abort(-1, application called MPI_Abort(MPI_COMM_WORLD, -1) - process 0)
+srun: error: athena08: task 0: Exited with exit code 255

@@ -1,0 +1,7 @@
+------------------------------------------------------------
+Client connecting to athena01, TCP port 5001
+TCP window size: 85.0 KByte (default)
+------------------------------------------------------------
+[  3] local 10.22.22.11 port 53268 connected with 10.22.22.1 port 5001
+[ ID] Interval       Transfer     Bandwidth
+[  3]  0.0-52.8 sec  1000 MBytes   159 Mbits/sec

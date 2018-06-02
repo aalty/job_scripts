@@ -1,0 +1,31 @@
+IOR-3.1.0: MPI Coordinated Test of Parallel I/O
+
+Began: Sat May 26 15:50:57 2018
+Command line used: /home/alty/ior-icc/bin/ior -a POSIX -w -B -t 1m -b 10g -o /tmp/testFile
+Machine: Linux athena04
+
+Test 0 started: Sat May 26 15:50:57 2018
+Summary:
+	api                = POSIX
+	test filename      = /tmp/testFile
+	access             = single-shared-file
+	ordering in a file = sequential offsets
+	ordering inter file= no tasks offsets
+	clients            = 1 (1 per node)
+	repetitions        = 1
+	xfersize           = 1 MiB
+	blocksize          = 10 GiB
+	aggregate filesize = 10 GiB
+
+access    bw(MiB/s)  block(KiB) xfer(KiB)  open(s)    wr/rd(s)   close(s)   total(s)   iter
+------    ---------  ---------- ---------  --------   --------   --------   --------   ----
+write     108.04     10485760   1024.00    0.000065   94.78      0.000011   94.78      0   
+remove    -          -          -          -          -          -          0.000154   0   
+
+Max Write: 108.04 MiB/sec (113.29 MB/sec)
+
+Summary of all tests:
+Operation   Max(MiB)   Min(MiB)  Mean(MiB)     StdDev   Max(OPs)   Min(OPs)  Mean(OPs)     StdDev    Mean(s) Test# #Tasks tPN reps fPP reord reordoff reordrand seed segcnt blksiz xsize aggsize API RefNum
+write         108.04     108.04     108.04       0.00     108.04     108.04     108.04       0.00   94.78144 0 1 1 1 0 0 1 0 0 1 10737418240 1048576 10737418240 POSIX 0
+
+Finished: Sat May 26 15:52:32 2018

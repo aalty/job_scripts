@@ -1,0 +1,7 @@
+HPL ERROR from process # 0, on line 419 of function HPL_pdinfo:
+>>> Need at least 6 processes for these tests <<<
+
+HPL ERROR from process # 0, on line 621 of function HPL_pdinfo:
+>>> Illegal input in file HPL.dat. Exiting ... <<<
+
+srun: error: athena15: tasks 0-1: Exited with exit code 1
