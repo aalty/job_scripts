@@ -4,6 +4,7 @@ slurm_sh=~/job_scripts/sys_scripts/slurm.sh
 smart_sh=~/job_scripts/sys_scripts/smart.sh
 ganglia_sh=~/job_scripts/sys_scripts/ganglia.sh
 iotop_sh=~/job_scripts/sys_scripts/iotop.sh
+sacct_log=~/job_scripts/sacct_log
 
 
 function record_job {	
@@ -59,18 +60,40 @@ function record_job {
 	#echo "$record" | grep "job args"
 }
 
-inotifywait -m -e close_write $sbatch_out_dir --format '%f'|
-while read filename
+
+while true
 do
-#filename=slurm-183.out 
-	jid=$(echo $filename | cut -d '-' -f 2 | cut -d '.' -f 1)
-	echo $jid
-	if [ "$(sacct -c 2>&1 | awk -v s_style="$jid" '{if ($1==s_style) print $7}')" == "COMPLETED" ];then
-		record_job $jid
+	last_jid=$(cat $sacct_log)
+	sacct -c > $sacct_log 2> /dev/null
+	last_nth=$(awk -v last_jid="$last_jid" '{if ($1==last_jid) print NR}' $sacct_log) 
+	IFS=' ' read -ra new_id <<< $(tail -n +$((last_nth+1)) $sacct_log | awk -v comp="COMPLETED" '{if ($7==comp) print $1}')
+	for id in ${new_id[@]}
+	do
+		record_job $id
+	done
+	if [ -z "$id" ];then
+		echo $last_jid > $sacct_log
 	else
-		echo $jid not completed yet.
+		echo $id > $sacct_log
 	fi
+
+	sleep 10m
 done
+
+	
+
+#inotifywait -m -e close_write $sbatch_out_dir --format '%f'|
+#while read filename
+#do
+##filename=slurm-183.out 
+#	jid=$(echo $filename | cut -d '-' -f 2 | cut -d '.' -f 1)
+#	echo $jid
+#	if [ "$(sacct -c 2>&1 | awk -v s_style="$jid" '{if ($1==s_style) print $7}')" == "COMPLETED" ];then
+#		record_job $jid
+#	else
+#		echo $jid not completed yet.
+#	fi
+#done
 
 	
 

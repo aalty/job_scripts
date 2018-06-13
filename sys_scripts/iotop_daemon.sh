@@ -28,4 +28,5 @@ elif [[ $mode == 0 ]]; then
 		kill $id
 	done
 	sudo kill $io_pid
+	rm $iotop_log
 fi

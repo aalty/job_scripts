@@ -14,11 +14,17 @@ IFS="," read -ra ior_b <<< "$(grep ior_b job_args | cut -d ' ' -f 2)"
 IFS="," read -ra iperf_b <<< "$(grep iperf_b job_args | cut -d ' ' -f 2)"
 IFS="," read -ra iperf_n <<< "$(grep iperf_n job_args | cut -d ' ' -f 2)"
 
-while true 
-do
-for ((j=0; j<48; j++)) do
+for i in ${ior_t[@]}; do echo $i; done
+
+#while true 
+#do
+for ((j=17; j<32; j++)) do
 	for ((i=0;i<$worker_num;i++)) do
+		if (($i == 8)); then
+			continue
+		fi
 		ran=$(((j/16)+1))
+		
 		#ran=$(((RANDOM%3)+1))
 		#echo $ran
 		if (($ran == 1)); then
@@ -35,7 +41,7 @@ for ((j=0; j<48; j++)) do
 			#jid=$(echo $output | cut -d ' ' -f 4)
 			#echo "Submitted batch job -->" $jid  
 		elif (($ran == 2)); then
-			ior_file=" $ior_dir${ran}_${ior_t[(($j / 4))]}_${ior_b[(($j % 4))]}.sh"
+			ior_file=" $ior_dir${ran}_${ior_t[((($j-16) / 4))]}_${ior_b[(($j % 4))]}.sh"
 			#ior_file=" $ior_dir${ran}_${ior_t[(($RANDOM % 4))]}_${ior_b[(($RANDOM % 4))]}.sh"
 			echo $ior_file
 			sbatch -o $sbatch_out -w athena${workers[$i]} $ior_file
@@ -43,7 +49,7 @@ for ((j=0; j<48; j++)) do
 			#jid=$(echo $output | cut -d ' ' -f 4)
 			#echo "Submitted batch job -->" $jid
 		else
-			iperf_file="$iperf_dir${ran}_${iperf_b[(($j % 4))]}_${iperf_n[(($j % 4))]}.sh"
+			iperf_file="$iperf_dir${ran}_${iperf_b[((($j-32) / 4))]}_${iperf_n[(($j % 4))]}.sh"
 			#iperf_file="$iperf_dir${ran}_${iperf_b[(($RANDOM % 4))]}_${iperf_n[(($RANDOM % 4))]}.sh"
 			echo $iperf_file
 			sbatch -o $sbatch_out -w athena${workers[$i]} $iperf_file
@@ -55,5 +61,5 @@ for ((j=0; j<48; j++)) do
 	
 	sleep 10m
 done
-done
+#done
 
