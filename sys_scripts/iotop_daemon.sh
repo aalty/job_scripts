@@ -25,8 +25,8 @@ elif [[ $mode == 0 ]]; then
 	for id in ${io_fork_pid[@]}
 	do 
 		echo $id
-		kill $id
+		sudo kill $id
 	done
 	sudo kill $io_pid
-	rm $iotop_log
+	> $iotop_log
 fi

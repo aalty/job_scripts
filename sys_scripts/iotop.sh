@@ -20,7 +20,6 @@ do
 		total_write=$(awk '{printf "%.2f", $1+$2}' <<< "$tmp_write $total_write")
 		epoch=$(($epoch + 1))		
 	fi
-	
 done
 
 if [[ $epoch != '0' ]]; then
